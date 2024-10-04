@@ -1,70 +1,172 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
+import React, { useState } from 'react';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+const MyComponent = () => {
+  const navigation = useNavigation();
 }
 
+const App = () => {
+  const [name, setName] = useState('');
+  const [data, setData] = useState('');
+  const [genero, setGenero] = useState('');
+  const [email, setEmail] = useState('');
+  const [tel, setTel] = useState('');
+
+  const handleSubmit = () => {
+    console.log('Nome:', name);
+    console.log('Data:', data);
+    console.log('Gênero:', genero);
+    console.log('Email:', email);
+    console.log('Telefone:', tel);
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>
+        Care
+        <Text style={styles.map}>
+          Map
+        </Text>
+      </Text>
+
+      <Text style={styles.subtitle}>Dados pessoais</Text>
+      <TextInput
+        style={styles.input}
+        value={name}
+        onChangeText={setName}
+        placeholder="Nome completo"
+      />
+      <TextInput
+        style={styles.input}
+        value={data}
+        onChangeText={setData}
+        placeholder="Data de nascimento"
+      />
+      
+      <Text style={[styles.subtitle, styles.grayText]}>Gênero</Text>
+      <View style={styles.genderContainer}>
+        <TouchableOpacity
+          style={[styles.genderBox, genero === 'feminino' && styles.selectedGender]}
+          onPress={() => setGenero('feminino')}
+        >
+          <Text style={styles.genderText}>Feminino</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.genderBox, genero === 'masculino' && styles.selectedGender]}
+          onPress={() => setGenero('masculino')}
+        >
+          <Text style={styles.genderText}>Masculino</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.genderBox, genero === 'outro' && styles.selectedGender]}
+          onPress={() => setGenero('outro')}
+        >
+          <Text style={styles.genderText}>Outro</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.subtitle}>Informações de contato</Text>
+      <TextInput
+        style={styles.input}
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email"
+        keyboardType="email-address"
+      />
+      <TextInput
+        style={styles.input}
+        value={tel}
+        onChangeText={setTel}
+        placeholder="Telefone"
+      />
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.continueButton} onPress={handleSubmit}>
+            <Text style={styles.buttonText}>CONTINUE</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  title: {
+    textAlign: 'center',
+    paddingVertical: 15, // Aumentado para mais espaçamento
+    color: '#226752',
+    fontSize: 30,
+    fontWeight: 'bold',
+    width: '100%',
+  },
+  map: {
+    color: '#ffffff',
+  },
+  subtitle: {
+    fontSize: 22, // Aumentado o tamanho da fonte
+    color: '#226752',
+    marginVertical: 15, // Aumentado o espaçamento
+    alignSelf: 'flex-start',
+  },
+  grayText: {
+    fontSize: 18, // Aumentado o tamanho da fonte
+    color: '#888',
+  },
+  input: {
+    height: 50, // Aumentado para mais espaço interno
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20, // Aumentado o espaçamento entre inputs
+    paddingHorizontal: 10,
+    width: '100%',
+    borderRadius: 10,
+  },
+  genderContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 25, // Aumentado o espaçamento
+  },
+  genderBox: {
+    width: '30%',
+    height: 60, // Aumentado para mais espaço interno
+    borderWidth: 1,
+    borderColor: 'gray',
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    borderRadius: 10,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  selectedGender: {
+    backgroundColor: '#d1e7dd',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  genderText: {
+    color: '#226752',
+  },
+  buttonContainer: {
+    marginTop: 30, // Aumentado para mais espaço acima do botão
+    width: '100%',
+    alignItems: 'center',
+  },
+  continueButton: {
+    backgroundColor: '#226752',
+    paddingVertical: 12, // Aumentado para mais espaço interno
+    paddingHorizontal: 20,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
+
+export default App;
